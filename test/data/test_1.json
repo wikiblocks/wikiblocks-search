@@ -1,0 +1,14 @@
+{
+  "title": "Prim's algorithm",
+  "aliases": [
+    "Prim's algorithm"
+  ],
+  "see_also": [
+    "Dijkstra's algorithm",
+    "shortest path problem"
+  ],
+  "categories": [
+    "Graph algorithms",
+    "Spanning tree"
+  ]
+}
