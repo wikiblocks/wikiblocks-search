@@ -17,7 +17,6 @@ var pg = require("pg"),
 */
 function handlePage(page, response){
 
-
 	// new client for this request
 	var client = new pg.Client(config);
 
