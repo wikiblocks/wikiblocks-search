@@ -4,7 +4,7 @@ var router = express.Router();
 var handler = require('../handlers/search-handler.js');
 
 /* POST search object */
-router.post('/search', function (req, res) {
+router.post('/', function (req, res) {
 	var page = req.body;
 
 	if(!page.title || !page.see_also || !page.categories) {

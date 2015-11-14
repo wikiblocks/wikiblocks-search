@@ -43,10 +43,15 @@ function handlePage(page, response){
 
 		try {
 			SearchEngine.getPageResults(page, function(error, gists) {
+
+				//return client to pool
+				done(client);
+
 				if(error) {
 					response.sendStatus(500);
 					return;
 				}
+
 				var results = {};
 				results.gists = gists;
 				results.start = t0;
@@ -58,7 +63,6 @@ function handlePage(page, response){
 			response.sendStatus(500);
 		}
 	});
-	
 };
 
 module.exports = {
