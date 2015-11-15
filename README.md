@@ -36,7 +36,7 @@ This project was initially conceived by Brooks Mershon for the course **Introduc
 TODO: include unit tests related to the search pipeline and tokenization process.
 
 
-# Deployment
+#Deployment
 
 Currently, all testing (including load-testing) is being done on local machines, or local machines that have been exposed through localtunnel to the outside world.
 
@@ -47,7 +47,7 @@ There are several choices under consideration for deployment of an express.js se
 - Heroku
 
 
-# Load-Testing
+#Load-Testing
 
 To send a batch of 5,000 requests for the sort of page object typically sent from the Chrome Extension:
 
