@@ -34,4 +34,9 @@ app.use(function(err, req, res, next) {
   res.sendStatus(err.status || 500);
 });
 
+// memory usage
+setInterval(function() {
+  console.log(parseInt(process.memoryUsage().rss / (1024*1024)) + ' MB');
+}, 333);
+
 module.exports = app;
