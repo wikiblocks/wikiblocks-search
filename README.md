@@ -22,7 +22,7 @@ This repository contains code related to the server(s) which facilitate searchin
 * [About](#about)
 * [Deployment](#deployment)
 * [Testing](#testing)
-* [Load Testing](#Load-Testing)
+* [Load Testing](#load-testing)
 
 ---
 
