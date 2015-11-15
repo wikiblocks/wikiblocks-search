@@ -6,7 +6,6 @@
 */
 
 var pg = require("pg"),
-	nlp = require('../lib/nlp.js'),
 	config = require('../config.json'),
 	SearchEngines = require('../lib/search/SearchEngines.js');
 
@@ -24,8 +23,7 @@ function handlePage(page, response){
 	client.connect(function(err) {
 		if(err) {
 			console.log(err);
-			response.sendStatus(503);
-			return;
+			return response.sendStatus(503);
 		}
 	});
 
@@ -41,19 +39,18 @@ function handlePage(page, response){
 
 			if(error) {
 				console.log("search error", error);
-				response.sendStatus(500);
-				return;
+				return response.sendStatus(500);
 			}
 
 			var results = {};
 			results.gists = gists;
 			results.start = t0;
 			results.end = Date.now();
-			response.json(JSON.stringify(results, null, 2));
+			return response.json(JSON.stringify(results, null, 2));
 		});
 
 	} catch(e) {
-		response.sendStatus(500);
+		return response.sendStatus(500);
 	}
 };
 
