@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/pm2/bin/pm2 start ./bin/www"
+    "start": "pm2 start ./bin/www"
   },
   "dependencies": {
     "aws-sdk": "^2.2.16",
