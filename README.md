@@ -38,14 +38,15 @@ TODO: include unit tests related to the search pipeline and tokenization process
 
 #Deployment
 
-Currently, all testing (including load-testing) is being done on local machines, or local machines that have been exposed through localtunnel to the outside world.
-
 There are several choices under consideration for deployment of an express.js server:
 
 - **EC2 instance managed with Vagrant**
 - Elastic Beanstalk
 - Heroku
 
+Currently, Elastic Beanstalk seems to work. ngninx provides gateway from <something>.elasticbeanstalk.com port 80 to the little express app listening on port 3000.
+
+Elastic Beanstalk appears to monitor the node process (http server) and restart if something goes wrong.
 
 #Load-Testing
 
@@ -74,16 +75,12 @@ Use the following ApacheBenchmark command:
 ab -p test/data/test_1.json -T application/json -c 100 -n 5000 <address>/<endpoint>
 ```
 
-If you are testing locally with localhost or even localtunnel to expose your localhost to the outside world, you might use something like:
+To test with a longer timeout , use `-s <seconds>`.
 
-`http://127.0.0.1:8081/search` as a POST endpoint.
-*OR*
-`http://cf1fcac0.ngrok.io/search`
-
-To test with a longer timeout , use `-s <seconds>`:
+For example:
 
 ```bash
-ab -p test/data/test_1.json -T application/json -c 100 -n 5000 -s 5000 http://cf1fcac0.ngrok.io/search
+ab -p test/data/test_1.json -T application/json -c 185 -n 10000 -s 5000 http://wikiblocksalpha.elasticbeanstalk.com/search
 ```
 
 
