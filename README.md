@@ -82,5 +82,3 @@ For example:
 ```bash
 ab -p test/data/test_1.json -T application/json -c 185 -n 10000 -s 5000 http://wikiblocksalpha.elasticbeanstalk.com/search
 ```
-
-
