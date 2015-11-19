@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 // modular routing
 var routes = require('./routes/index.js');
 var search = require('./routes/search.js');
+var gist = require('./routes/gist.js');
 
 var app = express();
 
@@ -18,8 +19,11 @@ app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use('/', routes);
 app.use('/search', search);
+app.use('/gist', gist);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -30,13 +34,8 @@ app.use(function(req, res, next) {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.sendStatus(err.status || 500);
-});
-
-// memory usage
-setInterval(function() {
-  console.log(parseInt(process.memoryUsage().rss / (1024*1024)) + ' MB');
-}, 333);
+// app.use(function(err, req, res, next) {
+//   res.sendStatus(err.status || 500);
+// });
 
 module.exports = app;
