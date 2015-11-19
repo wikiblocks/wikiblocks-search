@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 // modular routing
 var routes = require('./routes/index.js');
 var search = require('./routes/search.js');
-var gist = require('./routes/gist.js');
+var discover = require('./routes/discover.js');
+var update = require('./routes/update.js');
 
 var app = express();
 
@@ -23,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', routes);
 app.use('/search', search);
-app.use('/gist', gist);
+app.use('/discover', discover);
+app.use('/update', update);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

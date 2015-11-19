@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var handler = require('../handlers/gist-handler.js');
+var handler = require('../handlers/update-handler.js');
 
 /* POST search object */
 router.post('/', function (req, res) {

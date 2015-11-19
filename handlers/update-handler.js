@@ -2,6 +2,8 @@
 
 /*
 	Copyright 2015, Brooks Mershon
+
+	Hanle gist to be inserted, updated with tags, or otherwise modified in the database.
 */
 
 var	promise = require('bluebird'),
@@ -26,29 +28,12 @@ monitor.attach(options); // attach to all query events;
 monitor.setTheme('matrix'); // change the default theme;
 
 /*
-	UpdateGist
+	Update a gist that was clicked in the search results.
 */
-function handleGist(gist, response){
-
-	var tags = nlp.tag.extract(gist.description);
-	console.log(tags);
-
-	db.tx(gist.gistid, function (t) {
-		var Q = [];
-
-		Q.push(db.gist.addGist(gist));
-		Q.push(db.gist.addTags(gist.gistid, tags));
-
-	    return t.batch(Q);
-	})
-	    .then(function(data) {
-	        response.json(JSON.stringify({success: true, tags: tags}));
-	    })
-	    .catch(function(error) {
-	        response.json(JSON.stringify({success: false}));
-	    });
+function handleResult(result, response){
+	// TODO
 };
 
 module.exports = {
-	handleGist: handleGist
+	handleResult: handleResult
 };

@@ -1,0 +1,2 @@
+CREATE INDEX TagIndex ON Tag(txt);
+CREATE INDEX CategoryIndex ON Category(category);
