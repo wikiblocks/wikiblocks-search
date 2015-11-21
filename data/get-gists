@@ -1,0 +1,152 @@
+#!/usr/bin/env node
+
+/*
+    Brooks Mershon
+
+    modified from Mike Bostock's gist to clone all gists
+
+    This script is used to quickly insert all gists from each user in the input file
+    that fit a particular file-naming scheme into the database.
+*/
+
+var fs = require("fs"),
+    https = require("https"),
+    exec = require("child_process").exec,
+    d3 = require("d3-dsv"),
+    queue = require("queue-async"),
+    config = require("../config.json"),
+    promise = require('bluebird'),
+    monitor = require('pg-monitor'),
+    nlp = require("../lib/nlp.js"),
+    extensions = require("../lib/pg-extensions/");
+
+// ***** Configuration and extensions
+var options = {
+    promiseLib: promise,
+    extend: function (obj) {
+        // obj = this;
+        this.gist = extensions.extendGist(this);
+    }
+};
+
+var pgp = require('pg-promise')(options);
+var db = pgp(config); // database instance;
+
+monitor.attach(options); // attach to all query events;
+monitor.setTheme('matrix'); // change the default theme;
+
+var inputFile = process.argv[2],
+        token = config.token;
+
+var q = queue(1); //synchronous in users 
+
+
+fs.readFile(inputFile, 'utf8', function (err, data) {
+        var users = d3.csv.parse(data);
+        ready(users);
+});
+
+function ready(users) {
+    users.forEach(function(d) {
+        q.defer(task, d); // called with extra taskCallback argument
+    });
+
+    q.awaitAll(function(error, results) {
+        console.log("recorded all gists");
+        process.exit(0);
+    });
+}
+
+// task to handle asynchronous recording of a particular user's gists
+function task(d, taskCallback) {
+    fetchAndRecord(d.user, 1, function callback(error, nextPage) {
+        if (error) {
+            console.log("error", error);
+            callback(error, false);
+        }
+        if (nextPage > 0)
+            fetchAndRecord(d.user, nextPage, callback);
+        else {
+            taskCallback(null, true);
+        }
+    });
+}
+
+// fetch  all gists for a user and record in Database
+function fetchAndRecord(user, page, callback) {
+    fetch(user, page, function(error, gists) {
+        console.log("fetched " + user + "\'s gists, page " + page);
+        if (error) {
+            console.log(error);
+            return callback(error);
+        }
+        if (gists.length){
+
+            record(gists.pop(), function recorded(error, data) {
+                if(error) {
+                    console.log(error);
+                    // we've seen all gists after this one
+                    callback(null, -1);
+                    return;
+                }
+                if(gists.length) {
+                    record(gists.pop(), recorded);
+                } else {
+                    callback(null, ++page);
+                }
+            });
+
+        } else {
+            // we've run out of pages
+            callback(null, -1); 
+        } 
+    });
+};
+
+// fetch a given page of a user's gists
+function fetch(user, page, callback) {
+    var request = https.request({
+            hostname: "api.github.com",
+            port: 443,
+            path: "/users/" + encodeURIComponent(user) + "/gists?page=" + page,
+            method: "GET",
+            headers: {
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token " + token,
+                "User-Agent": "bmershon/wiki.bl.ocks"
+            }
+        }, function(response) {
+            var chunks = [];
+            response.setEncoding("utf8");
+            response.on("data", function(chunk) {chunks.push(chunk); });
+            response.on("end", function() { callback(null, JSON.parse(chunks.join(""))); });
+        });
+        request.on("error", callback);
+        request.end();
+}
+
+function record(raw, callback) {
+    var gist = formatGist(raw);
+
+    var tags = nlp.tag.extract(gist.description);
+
+    db.tx(gist.gistid, function (t) {
+        var Q = [];
+
+        Q.push(t.gist.addGist(gist));
+        Q.push(t.gist.addTags(gist.gistid, tags));
+
+        return this.batch(Q);
+    })
+        .then(function(data){
+            callback(null, gist);
+        })
+        .catch(function(error){
+            callback(error);
+        });
+}
+
+function formatGist(raw) {
+    var gist = {gistid: raw.id, username: raw.owner.login, description: raw.description};
+    return gist;
+}
