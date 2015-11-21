@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 /*
-	Copyright 2015
-	Brooks Mershon, Manoj Kanagaraj, and Davis Treybig
+	Copyright 2015, Brooks Mershon
 */
 
 var pg = require("pg"),
@@ -38,7 +37,6 @@ function handlePage(page, response){
 			client.end();
 
 			if(error) {
-				console.log("search error", error);
 				return response.sendStatus(500);
 			}
 
