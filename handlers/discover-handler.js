@@ -32,6 +32,7 @@ monitor.setTheme('matrix'); // change the default theme;
 */
 function handleGist(gist, response){
 
+	// add tags extracted from description and "known" tags
 	var tags = nlp.tag.extract(gist.description).concat(gist.tags);
 
 	var success = false;
@@ -47,7 +48,7 @@ function handleGist(gist, response){
 			success = (error.code == "23505");
 		})
 
-	// transaction
+	// transaction, 
 	db.gist.addTags(gist.gistid, tags)
 	    .then(function(data) {
 	    	var added = data.map(function(d) {return d.assigntag});
