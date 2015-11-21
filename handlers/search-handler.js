@@ -38,7 +38,6 @@ function handlePage(page, response){
 			client.end();
 
 			if(error) {
-				console.log("search error", error);
 				return response.sendStatus(500);
 			}
 
