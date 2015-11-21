@@ -21,7 +21,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.use('/', routes);
 app.use('/search', search);
 app.use('/discover', discover);

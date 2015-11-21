@@ -20,7 +20,6 @@
     "pg": "^4.4.3",
     "pg-monitor": "^0.3.6",
     "pg-promise": "^2.3.2",
-    "pm2": "0.15.9",
     "queue-async": "1.0.7",
     "serve-favicon": "~2.3.0"
   }
