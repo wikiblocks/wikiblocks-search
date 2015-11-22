@@ -38,7 +38,9 @@ monitor.setTheme('matrix'); // change the default theme;
 var inputFile = process.argv[2],
         token = config.token;
 
-var q = queue(1); //synchronous in users 
+var q = queue(1); //synchronous in users
+
+var count = 0;
 
 
 fs.readFile(inputFile, 'utf8', function (err, data) {
@@ -52,7 +54,7 @@ function ready(users) {
     });
 
     q.awaitAll(function(error, results) {
-        console.log("recorded all gists");
+        console.log(count + " new gists have been recorded");
         process.exit(0);
     });
 }
@@ -84,11 +86,12 @@ function fetchAndRecord(user, page, callback) {
 
             record(gists.pop(), function recorded(error, data) {
                 if(error) {
-                    console.log(error);
+                    //console.log(error);
                     // we've seen all gists after this one
                     callback(null, -1);
                     return;
                 }
+                count++;
                 if(gists.length) {
                     record(gists.pop(), recorded);
                 } else {
