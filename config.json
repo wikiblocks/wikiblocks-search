@@ -1,8 +1,0 @@
-{
-	"user": "master",
-	"host": "wikiblocks.cjwwwxjonqlk.us-west-2.rds.amazonaws.com",
-	"port": "5432",
-	"database": "wikiblocks_production_alpha",
-	"password": "whoisjohngalt",
-	"token": "a149caaddc05ee52a19776ca51b106c0a3efd45d"
-}
