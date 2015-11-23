@@ -21,6 +21,7 @@
     "pg-monitor": "^0.3.6",
     "pg-promise": "^2.3.2",
     "queue-async": "1.0.7",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "tape": "^4.2.2"
   }
 }

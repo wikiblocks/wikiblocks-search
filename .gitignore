@@ -4,6 +4,7 @@ node_modules/
 npm-debug.log
 .elasticbeanstalk/
 *.pem
+test/logs/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
