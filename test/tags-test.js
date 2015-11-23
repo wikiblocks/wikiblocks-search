@@ -9,7 +9,7 @@ var tape = require("tape"),
     promise = require('bluebird'), // or any other Promise/A+ compatible library;
     monitor = require('pg-monitor'), // for debugging
     config = require("../config.json"),
-    extensions = require("../lib/pg-extensions/"),
+    extensions = require("../lib/pgp-extensions/"),
     tagIterator = require("../lib/search/tagIterator.js").iterator;
 
 // ***** Configuration and extensions
@@ -17,7 +17,7 @@ var options = {
     promiseLib: promise,
     extend: function (obj) {
         // obj = this;
-        this.search = extensions.extendSearch(this);
+        this.gist = extensions.extendGist(this);
         this.tagIterator = tagIterator;
     }
 };
@@ -39,7 +39,7 @@ monitor.log = function(msg, info){
 var tags = ['hilbert', 'curve'];
 // *** TESTS ***
 tape("gists with tags " + tags, function(test) {
-    db.search.hasTags(tags)
+    db.gist.withTags(tags)
         .then(function(data) {
             console.log("gists", JSON.stringify(data,null,2));
         })
