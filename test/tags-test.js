@@ -9,7 +9,8 @@ var tape = require("tape"),
     promise = require('bluebird'), // or any other Promise/A+ compatible library;
     monitor = require('pg-monitor'), // for debugging
     config = require("../config.json"),
-    extensions = require("../lib/pg-extensions/");
+    extensions = require("../lib/pg-extensions/"),
+    tagIterator = require("../lib/search/tagIterator.js").iterator;
 
 // ***** Configuration and extensions
 var options = {
@@ -17,6 +18,7 @@ var options = {
     extend: function (obj) {
         // obj = this;
         this.search = extensions.extendSearch(this);
+        this.tagIterator = tagIterator;
     }
 };
 
@@ -34,9 +36,9 @@ monitor.log = function(msg, info){
 };
 
 
-var tags = ['convex', 'hull'];
+var tags = ['hilbert', 'curve'];
 // *** TESTS ***
-tape("gists with tags" + tags, function(test) {
+tape("gists with tags " + tags, function(test) {
     db.search.hasTags(tags)
         .then(function(data) {
             console.log("gists", JSON.stringify(data,null,2));
@@ -46,6 +48,21 @@ tape("gists with tags" + tags, function(test) {
         })
         .finally(function(){
             test.end();
-            pgp.end();
         });
+});
+
+tape("exhaust hook iterator for tags " + tags, function(test) {
+    var tagIterator = db.tagIterator(tags);
+
+    tagIterator.next().then(function lambda(result) {
+        if(result.done) {
+            test.end();
+            pgp.end();
+            return;
+        } else {
+            console.log(result.value);
+            tagIterator.next().then(lambda);
+        }
+    })
+    
 });
