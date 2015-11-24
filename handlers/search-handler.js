@@ -5,8 +5,7 @@
 */
 var pg = require("pg"),
 	config = require('../config.json'),
-	SearchEngines = require('../lib/search/SearchEngines.js'),
-	article = require('../article.js'),
+	annotate = require('../lib/annotate.js'),
 	promise = require('bluebird'),
     monitor = require('pg-monitor'),
     nlp = require("../lib/nlp.js"),
@@ -34,29 +33,25 @@ monitor.setTheme('matrix'); // change the default theme;
 */
 function handlePage(page, response){
 
-	// tokenized input strings
-	var annotatedPage = article.annotatePage(page);
-
-	console.log(annocatedPage);
-
-	var tagArray = [];
-
-	tagArray = tagArray.concat(annotatedPage.title);
-	tagArray = tagArray.concat(annotatedPage.aliases);
-	tagArray = tagArray.concat(annotatedPage.see_also);
-	tagArray = tagArray.concat([annotatedPage.categories]);
-
-	// ensure each string array is unique, and not empty
-	uniqueTagArray = _.unique(tagArray, function(t) { return t.join('');})
-					 .filter(function(g) {return (g.length > 0);});
+	if(!page.title) {
+    	return res.sendStatus(400);
+	}
+	var hooks = annotate(page);
+	
+	console.log(hooks);
 
 	try {
-		db.search.hooks(uniqueTagArray).then(function(data){
+		var t0 = new Date();
 
+		db.search.wiki(hooks).then(function(gists){
+			var result = {};
+			result.start = t0;
+			result.end = new Date();
+			result.gists = gists;
+			response.json(JSON.stringify(result, null, 2));
 		}).catch(function(error){
-
-		})
-
+			response.sendStatus(500);
+		});
 	} catch(e) {
 		return response.sendStatus(500);
 	}

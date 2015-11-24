@@ -10,7 +10,7 @@ var	promise = require('bluebird'),
     monitor = require('pg-monitor'),
     config = require("../config.json"),
     nlp = require("../lib/nlp.js"),
-    extensions = require("../lib/pg-extensions/");
+    extensions = require("../lib/pgp-extensions/");
 
 // ***** Configuration and extensions
 var options = {
