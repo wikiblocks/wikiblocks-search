@@ -27,26 +27,12 @@ var db = pgp(config); // database instance;
 var wstream = fs.createWriteStream("logs/search-tags-test.log");
 
 monitor.attach(options); // attach to all query events;
-monitor.setTheme('matrix'); // change the default theme;
 
 monitor.log = function(msg, info){
     wstream.write(msg + "\n");
 };
 
 var tags = ['hilbert', 'curve'];
-// *** TESTS ***
-tape("db.gist.anyTags(tags) " + tags, function(test) {
-    db.gist.tags(tags)
-        .then(function(data) {
-            test.ok(data.length >= 1);
-        })
-        .catch(function(error) {
-            test.notOk(error);
-        })
-        .finally(function(){
-            test.end();
-        });
-});
 
 tape("exhaust tag generator for tags " + tags, function(test) {
     // iterator that asynchronously presents next best match on the given tags 
@@ -59,7 +45,7 @@ tape("exhaust tag generator for tags " + tags, function(test) {
             pgp.end();
             return;
         } else {
-            test.ok(result.value.tags.length, "gist with " + result.value.tags);
+            test.ok(result.value.tags.length, "gist " + result.value.gistid + " with " + result.value.tags + " " + result.value.frequencies);
             it.next().then(lambda);
         }
     });

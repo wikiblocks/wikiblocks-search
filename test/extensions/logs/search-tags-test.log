@@ -1,6 +1,6 @@
-16:36:44 connect(master@wikiblocks_production_alpha)
-16:36:44 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY count(*) DESC
-16:36:44 disconnect(master@wikiblocks_production_alpha)
-16:36:44 connect(master@wikiblocks_production_alpha)
-16:36:44 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY count(*) DESC
-16:36:44 disconnect(master@wikiblocks_production_alpha)
+17:46:35 connect(master@wikiblocks_production_alpha)
+17:46:35 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 0
+17:46:35 disconnect(master@wikiblocks_production_alpha)
+17:46:35 connect(master@wikiblocks_production_alpha)
+17:46:35 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 5
+17:46:35 disconnect(master@wikiblocks_production_alpha)

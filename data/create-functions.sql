@@ -10,10 +10,12 @@ BEGIN
 			SELECT $1, tagid
 			FROM Tag
 			WHERE tag.tag = $2;
+		UPDATE Tag SET freq = freq + 1 WHERE Tag.tag = $2;
 		RETURN $2;
 	ELSE
 		INSERT INTO Tag(tag) VALUES($2) RETURNING Tag.tagid INTO that;
 		INSERT INTO Tag_Gist(gistid, tagid) VALUES($1, that);
+		UPDATE Tag SET freq = freq + 1 WHERE Tag.tag = $2;
 		RETURN $2;
 	END IF;
 
