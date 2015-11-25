@@ -1,0 +1,6 @@
+16:36:44 connect(master@wikiblocks_production_alpha)
+16:36:44 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY count(*) DESC
+16:36:44 disconnect(master@wikiblocks_production_alpha)
+16:36:44 connect(master@wikiblocks_production_alpha)
+16:36:44 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('hilbert','curve') GROUP BY Gist.gistid ORDER BY count(*) DESC
+16:36:44 disconnect(master@wikiblocks_production_alpha)

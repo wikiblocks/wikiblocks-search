@@ -8,16 +8,15 @@ var tape = require("tape"),
     fs = require("fs"),
     promise = require('bluebird'), // or any other Promise/A+ compatible library;
     monitor = require('pg-monitor'), // for debugging
-    config = require("../config.json"),
-    extensions = require("../lib/pgp-extensions/");
+    config = require("../../config.json"),
+    extensions = require("../../lib/pgp-extensions/");
 
 // ***** Configuration and extensions
 var options = {
     promiseLib: promise,
     extend: function (obj) {
-        // obj = this;
         this.gist = extensions.extendGist(this);
-        this.tagged = extensions.extendTagged();
+        this.search = extensions.extendSearch(this);
     }
 };
 
@@ -25,7 +24,7 @@ var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
 // ***** LOGGING *****
-var wstream = fs.createWriteStream("logs/tagged-test.log");
+var wstream = fs.createWriteStream("logs/search-tags-test.log");
 
 monitor.attach(options); // attach to all query events;
 monitor.setTheme('matrix'); // change the default theme;
@@ -37,7 +36,7 @@ monitor.log = function(msg, info){
 var tags = ['hilbert', 'curve'];
 // *** TESTS ***
 tape("db.gist.anyTags(tags) " + tags, function(test) {
-    db.gist.anyTags(tags)
+    db.gist.tags(tags)
         .then(function(data) {
             test.ok(data.length >= 1);
         })
@@ -52,7 +51,7 @@ tape("db.gist.anyTags(tags) " + tags, function(test) {
 tape("exhaust tag generator for tags " + tags, function(test) {
     // iterator that asynchronously presents next best match on the given tags 
     // using a Promise object returned by next()
-    var it = db.tagged(tags);
+    var it = db.search.tags(tags);
 
     it.next().then(function lambda(result) {
         if(result.done) {
