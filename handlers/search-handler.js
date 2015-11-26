@@ -31,24 +31,25 @@ var db = pgp(config); // database instance;
 */
 function handlePage(page, response){
 
+	if(!page.title) {
+        return res.sendStatus(400);
+    }
+
 	var limit = 20,
 		offset = 0;
 
-	if(!page.title) {
-    	return res.sendStatus(400);
-	}
-
-
-	var t0 = new Date();
+	var t0 = new Date().getTime();
 
 	db.search.wiki(page, limit, offset).then(function(gists){
 		console.log("returned gists", gists);
 		var result = {};
 		result.start = t0;
-		result.end = new Date();
+		result.end = new Date().getTime();
 		result.gists = gists;
 		response.json(JSON.stringify(result, null, 2));
-	}).catch(function(error){
+	})
+	.catch(function(error){
+		throw error;
 		response.sendStatus(500);
 	});
 };
