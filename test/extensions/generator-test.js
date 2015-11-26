@@ -16,7 +16,7 @@ var options = {
     promiseLib: promise,
     extend: function (obj) {
         this.gist = extensions.extendGist(this);
-        this.search = extensions.extendSearch(this);
+        this.generator = extensions.extendGenerator(this);
     }
 };
 
@@ -24,7 +24,7 @@ var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
 // ***** LOGGING *****
-var wstream = fs.createWriteStream("logs/search-tags-test.log");
+var wstream = fs.createWriteStream("logs/generator-test.log");
 
 monitor.attach(options); // attach to all query events;
 
@@ -37,7 +37,7 @@ var tags = ['hilbert', 'curve'];
 tape("exhaust tag generator for tags " + tags, function(test) {
     // iterator that asynchronously presents next best match on the given tags 
     // using a Promise object returned by next()
-    var it = db.search.tags(tags);
+    var it = db.generator.tags(tags);
 
     it.next().then(function lambda(result) {
         if(result.done) {
