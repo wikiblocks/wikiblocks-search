@@ -32,21 +32,23 @@ monitor.log = function(msg, info){
     wstream.write(msg + "\n");
 };
 
-var tags = ['hilbert', 'curve'];
+var tags = ["l-system", "hilbert", "spiral", "curve"];
 
 tape("exhaust tag generator for tags " + tags, function(test) {
     // iterator that asynchronously presents next best match on the given tags 
     // using a Promise object returned by next()
-    var it = db.generator.tags(tags);
+    var generator = db.generator.tags();
 
-    it.next().then(function lambda(result) {
+    var tagged = generator(tags); 
+
+    tagged.next().then(function lambda(result) {
         if(result.done) {
             test.end();
             pgp.end();
-            return;
+            return null;
         } else {
             test.ok(result.value.tags.length, "gist " + result.value.gistid + " with " + result.value.tags + " " + result.value.frequencies);
-            it.next().then(lambda);
+            tagged.next().then(lambda);
         }
     });
 });
