@@ -34,7 +34,7 @@ function handlePage(page, response){
         return res.sendStatus(400);
     }
 
-	var limit = 20,
+	var limit = 5,
 		offset = 0;
 
 	var t0 = new Date().getTime();

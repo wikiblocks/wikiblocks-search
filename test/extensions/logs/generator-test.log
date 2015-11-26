@@ -1,15 +1,15 @@
-14:57:01 connect(master@wikiblocks_production_alpha)
-14:57:01 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 0
-14:57:01 disconnect(master@wikiblocks_production_alpha)
-14:57:01 connect(master@wikiblocks_production_alpha)
-14:57:01 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 5
-14:57:01 disconnect(master@wikiblocks_production_alpha)
-14:57:01 connect(master@wikiblocks_production_alpha)
-14:57:01 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 10
-14:57:01 disconnect(master@wikiblocks_production_alpha)
-14:57:01 connect(master@wikiblocks_production_alpha)
-14:57:01 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 15
-14:57:02 disconnect(master@wikiblocks_production_alpha)
-14:57:02 connect(master@wikiblocks_production_alpha)
-14:57:02 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 20
-14:57:02 disconnect(master@wikiblocks_production_alpha)
+15:13:42 connect(master@wikiblocks_production_alpha)
+15:13:42 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 0
+15:13:42 disconnect(master@wikiblocks_production_alpha)
+15:13:42 connect(master@wikiblocks_production_alpha)
+15:13:42 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 5
+15:13:42 disconnect(master@wikiblocks_production_alpha)
+15:13:42 connect(master@wikiblocks_production_alpha)
+15:13:42 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 10
+15:13:42 disconnect(master@wikiblocks_production_alpha)
+15:13:42 connect(master@wikiblocks_production_alpha)
+15:13:42 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 15
+15:13:42 disconnect(master@wikiblocks_production_alpha)
+15:13:42 connect(master@wikiblocks_production_alpha)
+15:13:42 SELECT Gist.gistid, Gist.username, Gist.description, array_agg(Tag.tag) AS tags, array_agg(Tag.freq) AS frequencies, SUM(Tag.freq) AS freq_sum FROM Gist, Tag_Gist, Tag WHERE Gist.gistid = Tag_Gist.gistid AND Tag_Gist.tagid = Tag.tagid AND Tag.tag IN ('l-system','hilbert','spiral','curve') GROUP BY Gist.gistid ORDER BY COUNT(*) DESC, freq_sum ASC LIMIT 5 OFFSET 20
+15:13:42 disconnect(master@wikiblocks_production_alpha)

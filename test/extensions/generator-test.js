@@ -37,18 +37,16 @@ var tags = ["l-system", "hilbert", "spiral", "curve"];
 tape("exhaust tag generator for tags " + tags, function(test) {
     // iterator that asynchronously presents next best match on the given tags 
     // using a Promise object returned by next()
-    var generator = db.generator.tags();
+    var generator = db.generator.tags(tags);
 
-    var tagged = generator(tags); 
-
-    tagged.next().then(function lambda(result) {
+    generator.next().then(function lambda(result) {
         if(result.done) {
             test.end();
             pgp.end();
             return null;
         } else {
             test.ok(result.value.tags.length, "gist " + result.value.gistid + " with " + result.value.tags + " " + result.value.frequencies);
-            tagged.next().then(lambda);
+            generator.next().then(lambda);
         }
     });
 });
