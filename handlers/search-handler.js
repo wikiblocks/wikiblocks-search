@@ -41,7 +41,6 @@ function handlePage(page, response){
 	var t0 = new Date().getTime();
 
 	db.search.wiki(page, limit, offset).then(function(gists){
-		console.log("returned gists", gists);
 		var result = {};
 		result.start = t0;
 		result.end = new Date().getTime();
@@ -49,7 +48,7 @@ function handlePage(page, response){
 		response.json(JSON.stringify(result, null, 2));
 	})
 	.catch(function(error){
-		throw error;
+		console.log(error);
 		response.sendStatus(500);
 	});
 };
