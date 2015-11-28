@@ -17,7 +17,7 @@ var fs = require("fs"),
     config = require("../config.json"),
     promise = require('bluebird'),
     monitor = require('pg-monitor'),
-    nlp = require("../lib/nlp.js"),
+    nlp = require("../lib/nlp/"),
     extensions = require("../lib/pgp-extensions/");
 
 // ***** Configuration and extensions
@@ -131,7 +131,7 @@ function fetch(user, page, callback) {
 function record(raw, callback) {
     var gist = formatGist(raw);
 
-    var tags = nlp.tag.extract(gist.description);
+    var tags = nlp.tags(gist.description);
 
     db.tx(gist.gistid, function (t) {
         var Q = [];
