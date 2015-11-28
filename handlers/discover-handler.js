@@ -9,7 +9,7 @@
 var	promise = require('bluebird'),
     monitor = require('pg-monitor'),
     config = require("../config.json"),
-    nlp = require("../lib/nlp.js"),
+    nlp = require("../lib/nlp/"),
     extensions = require("../lib/pgp-extensions/");
 
 // ***** Configuration and extensions
@@ -33,7 +33,7 @@ monitor.setTheme('matrix'); // change the default theme;
 function handleGist(gist, response){
 
 	// add tags extracted from description and "known" tags
-	var tags = nlp.tag.extract(gist.description).concat(gist.tags);
+	var tags = nlp.tags(gist.description).concat(gist.tags);
 
 	var success = false;
 	var newGist = null;
