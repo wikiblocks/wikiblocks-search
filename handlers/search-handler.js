@@ -34,7 +34,7 @@ function handlePage(page, response){
         return res.sendStatus(400);
     }
 
-	var limit = 5,
+	var limit = 10,
 		offset = 0;
 
 	var t0 = new Date().getTime();
@@ -47,7 +47,7 @@ function handlePage(page, response){
 		response.json(JSON.stringify(result, null, 2));
 	})
 	.catch(function(error){
-		console.log(error);
+		throw error;
 		response.sendStatus(500);
 	});
 };
