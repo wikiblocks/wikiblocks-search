@@ -18,7 +18,8 @@ PRIMARY KEY(gistid, tagid));
 
 CREATE TABLE Category
 (category VARCHAR(128) NOT NULL UNIQUE,
-categoryid SERIAL NOT NULL PRIMARY KEY);
+categoryid SERIAL NOT NULL PRIMARY KEY,
+freq INT NOT NULL DEFAULT 0);
 
 CREATE TABLE Tag_Category
 (categoryid INT NOT NULL REFERENCES Category(categoryid),

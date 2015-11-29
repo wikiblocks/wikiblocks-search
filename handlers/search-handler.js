@@ -1,14 +1,12 @@
-#!/usr/bin/env node
-
-/*
-	Copyright 2015, Brooks Mershon
-*/
+/**
+ *	Copyright 2015, Brooks Mershon
+ */
 var	config = require('../config.json'),
 	promise = require('bluebird'),
     monitor = require('pg-monitor'),
     extensions = require("../lib/pgp-extensions/");
 
-// ***** Configuration and extensions
+// configure Promise library and add extensions
 var options = {
     promiseLib: promise,
     extend: function (obj) {
@@ -21,13 +19,9 @@ var options = {
 var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
-//monitor.attach(options); // attach to all query events;
+// pretty-printed database activity logging
+monitor.attach(options);
 
-/*
-	Creates a new client and new SearchEngine.
-
-	Sends response with error status 500 or JSON results.
-*/
 function handlePage(page, response){
 
 	if(!page.title) {
@@ -39,6 +33,7 @@ function handlePage(page, response){
 
 	var t0 = new Date().getTime();
 
+	// Promise resolves with most relevant gists
 	db.search.wiki(page, limit, offset).then(function(gists){
 		var result = {};
 		result.start = t0;
