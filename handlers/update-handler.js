@@ -29,7 +29,20 @@ monitor.setTheme('matrix'); // change the default theme;
 	Update a gist that was clicked in the search results.
 */
 function handleResult(result, response){
-	// TODO
+
+    var gist = result.gist;
+    var page = result.page;
+
+    console.log(result);
+
+    db.gist.addCategories(gist.gistid, page.categories)
+        .then(function(data) {
+            var categories = data.map(function(d) {return d.assigncategory});
+            response.json(JSON.stringify({success: true, categories: added}));
+        })
+        .catch(function(error) {
+            response.json(JSON.stringify({success: false, error: error}));
+        });
 };
 
 module.exports = {

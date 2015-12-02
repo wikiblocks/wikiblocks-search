@@ -6,12 +6,9 @@ var handler = require('../handlers/update-handler.js');
 /* POST search object */
 router.post('/', function (req, res) {
 	var gist = req.body;
-
-	if(!gist.gistid || !gist.username || !gist.description) {
-    	return res.sendStatus(400);
-	}
+	
 	// pass response to the middleware responsible for handling page
-	handler.handleGist(gist, res);
+	handler.handleResult(gist, res);
 });
 
 module.exports = router;
