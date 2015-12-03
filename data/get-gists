@@ -77,32 +77,38 @@ function task(d, taskCallback) {
 // fetch  all gists for a user and record in Database
 function fetchAndRecord(user, page, callback) {
     fetch(user, page, function(error, gists) {
-        console.log("fetched " + user + "\'s gists, page " + page);
-        if (error) {
-            console.log(error);
-            return callback(error);
+
+        try {
+            console.log("fetched " + user + "\'s gists, page " + page);
+            if (error) {
+                console.log(error);
+                return callback(error);
+            }
+            if (gists.length){
+
+                record(gists.pop(), function recorded(error, data) {
+                    if(error) {
+                        //console.log(error);
+                        // we've seen all gists after this one
+                        //callback(null, -1);
+                        //return;
+                    }
+                    count++;
+                    if(gists.length) {
+                        record(gists.pop(), recorded);
+                    } else {
+                        callback(null, ++page);
+                    }
+                });
+
+            } else {
+                // we've run out of pages
+                callback(null, -1); 
+            } 
+
+        } catch(e) {
+            // TODO
         }
-        if (gists.length){
-
-            record(gists.pop(), function recorded(error, data) {
-                if(error) {
-                    //console.log(error);
-                    // we've seen all gists after this one
-                    callback(null, -1);
-                    return;
-                }
-                count++;
-                if(gists.length) {
-                    record(gists.pop(), recorded);
-                } else {
-                    callback(null, ++page);
-                }
-            });
-
-        } else {
-            // we've run out of pages
-            callback(null, -1); 
-        } 
     });
 };
 
@@ -131,7 +137,9 @@ function fetch(user, page, callback) {
 function record(raw, callback) {
     var gist = formatGist(raw);
 
-    var tags = nlp.tags(gist.description);
+    if(!gist.description) callback(null, []);
+
+    var tags = nlp.tags(gist.description || "");
 
     db.tx(gist.gistid, function (t) {
         var Q = [];
