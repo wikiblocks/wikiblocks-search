@@ -20,7 +20,7 @@ var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
 // pretty-printed database activity logging
-//monitor.attach(options);
+monitor.attach(options);
 
 function handlePage(page, response){
 
@@ -40,10 +40,10 @@ function handlePage(page, response){
 		result.end = new Date().getTime();
 		result.gists = gists;
 		response.json(JSON.stringify(result, null, 2));
-		console.log("gists returned", JSON.stringify(gists, null, 2));
+		//console.log("gists returned", JSON.stringify(gists, null, 2));
 	})
 	.catch(function(error){
-		throw error;
+		//throw error;
 		response.sendStatus(500);
 	});
 };
