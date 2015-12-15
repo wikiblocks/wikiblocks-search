@@ -35,8 +35,8 @@ app.use(function(req, res, next) {
 
 // production error handler
 // no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//   res.sendStatus(err.status || 500);
-// });
+app.use(function(err, req, res, next) {
+  res.sendStatus(err.status || 500);
+});
 
 module.exports = app;

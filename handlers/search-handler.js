@@ -20,7 +20,7 @@ var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
 // pretty-printed database activity logging
-monitor.attach(options);
+//monitor.attach(options);
 
 function handlePage(page, response){
 

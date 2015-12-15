@@ -24,8 +24,8 @@ var options = {
 var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
-monitor.attach(options); // attach to all query events;
-monitor.setTheme('matrix'); // change the default theme;
+// monitor.attach(options); // attach to all query events;
+// monitor.setTheme('matrix'); // change the default theme;
 
 /*
 	UpdateGist
