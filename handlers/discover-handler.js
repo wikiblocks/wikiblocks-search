@@ -1,10 +1,8 @@
-#!/usr/bin/env node
-
-/*
-	Copyright 2015, Brooks Mershon
-
-	Hanle gist to be inserted, updated with tags, or otherwise modified in the database.
-*/
+/**
+ *	Copyright 2015, Brooks Mershon
+ *
+ *	Handle gist to be inserted, updated with tags, or otherwise modified in the database.
+ */
 
 var	promise = require('bluebird'),
     monitor = require('pg-monitor'),
@@ -24,38 +22,47 @@ var options = {
 var pgp = require('pg-promise')(options);
 var db = pgp(config); // database instance;
 
-// monitor.attach(options); // attach to all query events;
-// monitor.setTheme('matrix'); // change the default theme;
+monitor.attach(options); // attach to all query events;
+monitor.setTheme('matrix'); // change the default theme;
 
-/*
-	UpdateGist
-*/
 function handleGist(gist, response){
 
 	// add tags extracted from description and "known" tags
-	var tags = nlp.tags(gist.description).concat(gist.tags);
+	var description = gist.description || "";
+	var username = gist.username || "";
+	var descriptionTags = (description.length) ? nlp.tags(gist.description) : [];
+	var tags = gist.tags || [];
+	var categories = gist.categories || [];
+	tags = tags.concat(descriptionTags);
 
-	var success = false;
-	var newGist = null;
-
-	db.gist.addGist(gist)
-		.then(function(data) {
-			newGist = gist;
-			success = true;
-		})
+	if(description.length && username.length) {
+		db.gist.addGist() // attempt to add new gist (might be duplicate)
 		.catch(function(error) {
-			newGist = null;
-			success = (error.code == "23505");
+			// TODO
 		})
-	// transaction, 
-	db.gist.addTags(gist.gistid, tags)
-	    .then(function(data) {
-	    	var added = data.map(function(d) {return d.assigntag});
-	        response.json(JSON.stringify({success: success, gist: newGist, tags: added}));
-	    })
-	    .catch(function(error) {
-	        response.json(JSON.stringify({success: false, error: error}));
-	    });
+		.finally(function() {
+			db.tx(function(t) {
+				return t.batch([
+					db.gist.addTags(gist.gistid, tags),
+					db.gist.addCategories(gist.gistid, categories)
+				]);
+			})
+			.then(function() {
+				response.json(JSON.stringify({success: true}));
+			});
+		});
+	} else { // just add tags and categories
+		db.tx(function(t) {
+				return t.batch([
+					db.gist.addTags(gist.gistid, tags),
+					db.gist.addCategories(gist.gistid, categories)
+				]);
+		})
+		.then(function() {
+				response.json(JSON.stringify({success: true}));
+		});
+	}
+	
 };
 
 module.exports = {
